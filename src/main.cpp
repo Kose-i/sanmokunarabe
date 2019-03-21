@@ -79,8 +79,31 @@ class computer{
 };
 
 class sanmokunarabe{
+  private:
+    static bool is_same(const char& ch0, const char& ch1, const char& ch2) {
+      if (ch0 == ch1 && ch1 == ch2)return true;
+      return false;
+    }
   public:
     std::string board;
+  private:
+    char is_line_finish() {
+      if (is_same(board[0], board[1], board[2]))return board[0];
+      else if (is_same(board[3],board[4], board[5]))return board[3];
+      else if (is_same(board[6],board[7], board[8])) return board[6];
+      else return '.';
+    }
+    char is_row_finish() {
+      if (is_same(board[0], board[3], board[6])) return board[0];
+      else if (is_same(board[1], board[4], board[7])) return board[1];
+      else if (is_same(board[2], board[5], board[8])) return board[2];
+      else return '.';
+    }
+    char is_naname_finish() {
+      if (is_same(board[0], board[4], board[8])) return board[0];
+      else if (is_same(board[2], board[4], board[6])) return board[2];
+      else return '.';
+    }
   public:
     sanmokunarabe():board(9, '.'){};
     void print_board()const{
@@ -94,11 +117,18 @@ class sanmokunarabe{
     void put_stone(const int& pos, const char& stone){
       board[pos] = stone;
     }
+    char isfinish() {
+      if (is_line_finish() != '.') return is_line_finish();
+      else if (is_row_finish() != '.') return is_row_finish();
+      else if (is_naname_finish() != '.') return is_naname_finish();
+      else return '.';
+    }
 };
 
 int main(int argc ,char ** argv) {
   computer computer1('w');
   sanmokunarabe test;
+  char winner {'.'};
   for (auto i = 0;i < 9;++i) {
     test.print_board();
     int detect_pos {};
@@ -110,5 +140,11 @@ int main(int argc ,char ** argv) {
     }
     std::cout << detect_pos << '\n';
     test.put_stone(detect_pos, ((i%2==0)?'b':'w'));
+    if (test.isfinish() != '.') {
+      winner = test.isfinish();
+      test.print_board();
+      break;
+    }
   }
+  std::cout << "\nwinner : " << winner << '\n';
 }
