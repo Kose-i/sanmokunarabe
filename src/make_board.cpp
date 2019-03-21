@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 
@@ -87,4 +88,13 @@ int main(int argc, char** argv) {
     now_cycle = next_cycle;
     std::cout << "now_cycle:" << now_cycle << '\n';
   }
+  std::ofstream ofs("data.txt");
+  if (!ofs) {
+    std::cerr << "data.txt" << " cant open\n";
+  }
+  for (const auto& e : board_box) {
+    if (e.now_finish == '.') continue;
+    ofs << e.board_tmp << e.now_finish << '\n';
+  }
+  std::cout << "Succeed:write data.txt\n";
 }
