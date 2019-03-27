@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <map>
 #include <cmath>
@@ -23,16 +24,24 @@ struct UCB1_data{
     int call_count;
 };
 
+class hand{
+  private:
+    std::vector<UCB1_data> hand_next_UCBparam;
+    std::vector<int> next_hand;
+  public:
+    hand(const int& hash){
+      set_next_hand();
+    };
+    static int hash_from_board(const std::string& board) {
+      int output_hash {};
+      return output_hash;
+    }
+};
+
 class computer_sanmokunarabe{
   private:
-    std::map<int, UCB1_data> tmp;//環境要素を入力,アクションをcallにより返却
-    std::vector<double> hand;//現在の状況から次の手をUCB1アルゴリズムから決定
+    std::map<int, hand> tmp;//環境要素を入力,アクションをcallにより返却(仲介としてhand classを実装)
     int trial_count_;
-    void hand_update() {
-      for (auto i = 0;i < 9;++i) {
-        hand[i] = tmp[];
-      }
-    }
   public:
     computer_sanmokunarabe():hand(9,0.0), trial_count_(0){};
     int choice_pos(const std::vector<int>& board) {
