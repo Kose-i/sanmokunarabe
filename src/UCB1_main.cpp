@@ -1,8 +1,10 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <map>
 #include <cmath>
 #include <limits>
+#include <cassert>
 
 struct UCB1_data{
   void update_count(const int& is_win) {
@@ -26,34 +28,63 @@ struct UCB1_data{
 
 class hand{
   private:
-    std::vector<UCB1_data> hand_next_UCBparam;
+    std::vector<UCB1_data> next_hand_UCB1param;
     std::vector<int> next_hand;
   public:
     hand(const int& hash){
-      set_next_hand();
+      set_next_hand(hash);
     };
-    static int hash_from_board(const std::string& board) {
+    static int hash_from_board(const std::string& board) {//board[9byte] -> hash[18bit(3or2byte)]
       int output_hash {};
+      assert(board.size() != 9);
+      for (auto i = 0;i < 9;++i) {
+        output_hash = output_hash << 2;//2bit 移動
+        if (board[i] == 'b') {
+          output_hash += 1;
+        } else if (board[i] == 'w') {
+          output_hash += 2;
+        } else {//board[i] == '.'
+          output_hash += 0;
+        }
+      }
       return output_hash;
+    }
+    void set_next_hand(const int& hash) {
+      int c = 3;//00...011
+      int hash_tmp = hash;
+      for (auto i = 0;i < 9;++i) {
+        if ((c & hash_tmp) == 0) {//'.'
+          next_hand.push_back(i);
+          next_hand_UCB1param.push_back();
+        }
+        hash_tmp = hash_tmp << 1;
+      }
+      next_hand.sort();
+    }
+    int call(){
+      if (next_hand.empty() ) {
+        std::cerr << "next_hand.empty\n";
+        return -1;
+      }
+      return next_hand[0];
     }
 };
 
 class computer_sanmokunarabe{
   private:
-    std::map<int, hand> tmp;//環境要素を入力,アクションをcallにより返却(仲介としてhand classを実装)
+    std::map<int, hand> tmp;//環境要素hashを入力,アクションをcallにより返却(仲介としてhand classを実装)
     int trial_count_;
   public:
-    computer_sanmokunarabe():hand(9,0.0), trial_count_(0){};
+    computer_sanmokunarabe(): trial_count_(0){};
     int choice_pos(const std::vector<int>& board) {
-      int max_pos {};
-      hand_update();
-      return max_pos;
+      int hash_board = hand::hash_from_board(board);
+      return tmp[hash_board].call();
     }
     void study() {
       sanmokunarabe tmp;
       std::vector<int> hash_data_box;
-      for (;tmp.is_finish() != '.';) {
-      }
+//      for (;tmp.is_finish() != '.';) {
+//      }
 
       for (auto i = 0;i < hash_data_box.size();++i) {
         if (hash_data_box.size() %2 == 0) {
