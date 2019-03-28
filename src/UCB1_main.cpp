@@ -76,15 +76,22 @@ class computer_sanmokunarabe{
     int trial_count_;
   public:
     computer_sanmokunarabe(): trial_count_(0){};
-    int choice_pos(const std::vector<int>& board) {
+    int choice_pos(const std::string& board) {
       int hash_board = hand::hash_from_board(board);
       return tmp[hash_board].call();
     }
     void study() {
       sanmokunarabe tmp;
       std::vector<int> hash_data_box;
-//      for (;tmp.is_finish() != '.';) {
-//      }
+      char winner = '.';
+      for (auto i = 0;i < 9;++i) {
+        if (i %2 == 0) {//'w'
+        } else {//'b'
+        }
+        if (tmp.is_finish() != '.') {
+          winner = tmp.is_finish();
+        }
+      }
 
       for (auto i = 0;i < hash_data_box.size();++i) {
         if (hash_data_box.size() %2 == 0) {
