@@ -66,8 +66,16 @@ class hand{
         std::cerr << "next_hand.empty\n";
         return -1;
       }
-      return next_hand[0];
+      int max_param = 0, max_pos = 0;
+      for (auto i = 0;i < next_hand.empty();++i) {
+        if (max_param < next_hand_UCB1param.call()) {
+          max_param = next_hand_UCB1param.call();
+          max_pos = i;
+        }
+      }
+      return max_pos;
     }
+    void update_UCB1(){}
 };
 
 class computer_sanmokunarabe{
