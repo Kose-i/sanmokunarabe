@@ -66,9 +66,10 @@ class hand{
         std::cerr << "next_hand.empty\n";
         return -1;
       }
-      int max_param = 0, max_pos = 0;
+      double max_param = std::numeric_limits<double>::min();
+      int max_pos = 0;
       for (auto i = 0;i < next_hand.empty();++i) {
-        if (max_param < next_hand_UCB1param.call()) {
+        if (max_param < next_hand_UCB1param[i].call()) {
           max_param = next_hand_UCB1param.call();
           max_pos = i;
         }
