@@ -6,12 +6,16 @@
 #include <limits>
 #include <cassert>
 
-struct UCB1_data{
+struct UCB1_data{//報酬を決定
   void update_count(const int& is_win) {
     if (is_win > 0) {
       ++this->win_count;
     }
     ++this->call_count;
+  }
+
+  int this_call_count()const{
+    return call_count;
   }
 
   double call(const int& trial_count) {
@@ -28,12 +32,9 @@ struct UCB1_data{
 
 class hand{
   private:
-    std::vector<UCB1_data> next_hand_UCB1param;
-    std::vector<int> next_hand;
+    std::vector<UCB1_data> next_hand_UCB1param;//報酬
   public:
-    hand(const int& hash){
-      set_next_hand(hash);
-    };
+    hand(const int& hash):next_hand_UCB1param(9) {}
     static int hash_from_board(const std::string& board) {//board[9byte] -> hash[18bit(3or2byte)]
       int output_hash {};
       assert(board.size() != 9);
@@ -49,34 +50,28 @@ class hand{
       }
       return output_hash;
     }
-    void set_next_hand(const int& hash) {
-      int c = 3;//00...011
-      int hash_tmp = hash;
-      for (auto i = 0;i < 9;++i) {
-        if ((c & hash_tmp) == 0) {//'.'
-          next_hand.push_back(i);
-          next_hand_UCB1param.push_back();
-        }
-        hash_tmp = hash_tmp << 1;
-      }
-      next_hand.sort();
+    void update(int number, int win_check) {
+      next_hand_UCB1param[number].update_count(win_check);
     }
     int call(){
       if (next_hand.empty() ) {
         std::cerr << "next_hand.empty\n";
         return -1;
       }
+      int goukei {};
+      for (const auto& e : next_hand_UCB1param ) {
+        goukei += e.this_call_count;
+      }
       double max_param = std::numeric_limits<double>::min();
       int max_pos = 0;
-      for (auto i = 0;i < next_hand.empty();++i) {
-        if (max_param < next_hand_UCB1param[i].call()) {
-          max_param = next_hand_UCB1param.call();
+      for (auto i = 0;i < 9;++i) {
+        if (max_param < next_hand_UCB1param[i].call(goukei)) {
+          max_param = next_hand_UCB1param[i].call(goukei);
           max_pos = i;
         }
       }
       return max_pos;
     }
-    void update_UCB1(){}
 };
 
 class computer_sanmokunarabe{
@@ -91,26 +86,33 @@ class computer_sanmokunarabe{
     }
     void study() {
       sanmokunarabe tmp;
+      std::vector<int> put_pos_data_box;//おいた場所を記録
       std::vector<int> hash_data_box;
       char winner = '.';
+      char stone = 'w';
+      int pos = 0;
       for (auto i = 0;i < 9;++i) {
-        if (i %2 == 0) {//'w'
-        } else {//'b'
+        if (i %2 == 0) {
+          pos = choice_pos(tmp);
+          stone = 'w';
+        } else {
+          pos = choice_pos(tmp);
+          stone = 'b';
         }
-        if (tmp.is_finish() != '.') {
-          winner = tmp.is_finish();
-        }
+        put_pos_data_box.push_back(pos);
+        winner = tmp.set_stone_is_finish(stone, pos);
+        if (winner != '.') break;
       }
 
-      for (auto i = 0;i < hash_data_box.size();++i) {
-        if (hash_data_box.size() %2 == 0) {
+      for (auto i = 0;i < put_pos_data_box.size();++i) {
+        if (winner != 'w') {
           if (i % 2 == 0) {
             tmp[hash_data_box[i]].update_count(1);
           } else {
             tmp[hash_data_box[i]].update_count(0);
           }
         } else {
-          if (i % 2 == 0) {
+          if (winner == 'b') {
             tmp[hash_data_box[i]].update_count(0);
           } else {
             tmp[hash_data_box[i]].update_count(1);
@@ -133,13 +135,13 @@ class sanmokunarabe{
       if (is_same(board[6], board[7], board[8]) == true) return board[6];
       return '.';
     }
-    char is_finish_line(const std::string& board)const {
+    char is_finish_line()const {
       if (is_same(board[0], board[3], board[6]) == true) return board[0];
       if (is_same(board[1], board[4], board[7]) == true) return board[1];
       if (is_same(board[2], board[5], board[8]) == true) return board[2];
       return '.';
     }
-    char is_finish_naname(const std::string& board)const {
+    char is_finish_naname()const {
       if (is_same(board[0], board[4], board[8]) == true) return board[0];
       if (is_same(board[2], board[4], board[6]) == true) return board[2];
       return '.';
@@ -149,27 +151,46 @@ class sanmokunarabe{
     void print_board() const {
       for (auto i = 0;i < 3;++i) {
         for (auto j = 0;j < 3;++j) {
-          std::cout << board[i][j];
+          std::cout << board[i*3 + j];
         }
         std::cout << '\n';
       }
     }
-    char is_finish(const std::string& board) {
-      tmp = is_finish_row(board);
+    char set_stone_is_finish(const char& stone, const int& pos) {
+      if (board[pos] != '.') {
+        if (stone == 'w') return 'b';
+        else if (stone == 'b') return 'w';
+      }
+      board[pos] = stone;
+      return is_finish();
+    }
+    char is_finish() {
+      char tmp = is_finish_row();
       if (tmp != '.') return tmp;
-      tmp = is_finish_line(board);
+      tmp = is_finish_line();
       if (tmp != '.') return tmp;
-      tmp = is_finish_naname(board);
+      tmp = is_finish_naname();
       return tmp;
     }
 };
 
 int main(int argc, char** argv) {
-  computer_sanmokunarabe now_data;
+//  computer_sanmokunarabe now_data;
+  char stone = 'w';
   for (auto i = 0;i < 3;++i) {
     sanmokunarabe test;
     for (auto j = 0;j < 10;++j) {
-      now_data.study();
+      test.print_board();
+      if (j %2 == 0) stone = 'w';
+      else stone = 'b';
+      std::cout << "pos:";
+      //pos = now_data.choice_pos();
+      int pos;
+      std::cin >> pos;
+      if (test.set_stone_is_finish(stone, pos) != '.') {
+        std::cout << "finish\n";
+        break;
+      }
     }
   }
 }
