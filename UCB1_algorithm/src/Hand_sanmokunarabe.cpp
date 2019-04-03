@@ -3,11 +3,13 @@
 #include <limits>
 #include <vector>
 
+#include <iostream>//test
+
 Hand_sanmokunarabe::Hand_sanmokunarabe():hand_nine(9){};
 
 int Hand_sanmokunarabe::select_pos()const{
   int max_pos = 0;
-  int max_param = std::numeric_limits<double>::min();
+  double max_param = std::numeric_limits<double>::min();
   int sum_trial_count {};
   for (auto i = 0;i < 9;++i) {
     sum_trial_count += hand_nine[i].call_count;
@@ -20,6 +22,7 @@ int Hand_sanmokunarabe::select_pos()const{
       max_param = tmp_calc;
     }
   }
+  std::cout << "max_pos:" << max_pos << " max_param:" << max_param << '\n';
   return max_pos;
 };
 

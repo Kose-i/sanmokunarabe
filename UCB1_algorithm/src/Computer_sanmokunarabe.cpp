@@ -32,6 +32,7 @@ void Computer_sanmokunarabe::study() {
       b_Hand_recorder.push_back(p);
     }
     if (win_char != '.') {
+      std::cout << "study circle " << i << '\n';
       break;
     }
   }
@@ -62,7 +63,7 @@ void Computer_sanmokunarabe::study() {
 
 int Computer_sanmokunarabe::make_hash_from_board(const std::string& board) {//board[9byte] -> output_hash[{18bit}]
   int output_hash {};
-  assert(board.size() != 9);
+  assert(board.size() == 9);
   for (auto i = 0;i < 9;++i) {
     output_hash = output_hash << 2;//2bit 移動
     if (board[i] == 'b') {
