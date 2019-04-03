@@ -1,4 +1,4 @@
-#include "Hand.hpp"
+#include "Hand_sanmokunarabe.hpp"
 
 #include <climits>
 #include <vector>
