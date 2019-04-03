@@ -19,7 +19,8 @@ void Computer_sanmokunarabe::study() {
   sanmokunarabe test;
   char win_char {};
   for (auto i = 0;i < 9;++i) {
-    int hash_now = Computer_sanmokunarabe::make_hash_from_board(test.board_env());
+    std::string board_data = test.board_env();
+    int hash_now = make_hash_from_board(board_data);
     int p = select_pos(hash_now);
     if (i % 2 == 0) {
       win_char =  test.set_stone_is_finish('w', p);
@@ -36,10 +37,30 @@ void Computer_sanmokunarabe::study() {
   }
   //ここから更新手続き
   if (win_char == 'b') {
+    for (auto i = 0;i < b_Hash_recorder.size();++i) {
+      hand_box[b_Hash_recorder[i]].set_win(b_Hand_recorder[i]);
+    }
+    for (auto i = 0;i < w_Hash_recorder.size();++i) {
+      hand_box[w_Hash_recorder[i]].set_lose(w_Hand_recorder[i]);
+    }
+  } else if (win_char == 'w') {
+    for (auto i = 0;i < b_Hash_recorder.size();++i) {
+      hand_box[b_Hash_recorder[i]].set_lose(b_Hand_recorder[i]);
+    }
+    for (auto i = 0;i < w_Hash_recorder.size();++i) {
+      hand_box[w_Hash_recorder[i]].set_win(w_Hand_recorder[i]);
+    }
+  } else {
+    for (auto i = 0;i < b_Hash_recorder.size();++i) {
+      hand_box[b_Hash_recorder[i]].set_lose(b_Hand_recorder[i]);
+    }
+    for (auto i = 0;i < w_Hash_recorder.size();++i) {
+      hand_box[w_Hash_recorder[i]].set_lose(w_Hand_recorder[i]);
+    }
   }
 }
 
-static int make_hash_from_board(const std::string& board) {//board[9byte] -> output_hash[{18bit}]
+int Computer_sanmokunarabe::make_hash_from_board(const std::string& board) {//board[9byte] -> output_hash[{18bit}]
   int output_hash {};
   assert(board.size() != 9);
   for (auto i = 0;i < 9;++i) {

@@ -12,9 +12,9 @@ add_executable(PatternMatch_main
 )
 
 #UCB1 algorithm
-add_executable(UCB1_main
-  src/UCB1_main.cpp
-)
+#add_executable(UCB1_main
+#  src/UCB1_main.cpp
+#)
 
 include_directories(UCB1_algorithm/include)
 

@@ -11,6 +11,9 @@ class Hand_sanmokunarabe{
   public:
     Hand_sanmokunarabe();
     int select_pos()const;
+    void set_win(const int&);
+    void set_lose(const int&);
+
 };
 
 #endif
