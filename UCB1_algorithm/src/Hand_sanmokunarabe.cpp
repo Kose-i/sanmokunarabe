@@ -1,18 +1,18 @@
 #include "Hand_sanmokunarabe.hpp"
 
-#include <climits>
+#include <limits>
 #include <vector>
 
 Hand_sanmokunarabe::Hand_sanmokunarabe():hand_nine(9){};
 
 int Hand_sanmokunarabe::select_pos()const{
   int max_pos = 0;
-  int max_param = std::limits<double>.min();
+  int max_param = std::numeric_limits<double>::min();
   for (auto i = 0;i < 9;++i) {
-    hand_nine[i].calc();
-    if (max_param < hand_nine[i].calc()) {
+    double tmp_calc = hand_nine[i].calc(4);//TODO
+    if (max_param < tmp_calc) {
       max_pos = i;
-      max_param = hand_nine[i].calc();
+      max_param = tmp_calc;
     }
   }
   return max_pos;

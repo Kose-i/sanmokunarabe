@@ -9,7 +9,7 @@ class Hand_sanmokunarabe{
   private:
     std::vector<UCB1> hand_nine;
   public:
-    Hand_sanmokunarabe(const int&);
+    Hand_sanmokunarabe();
     int select_pos()const;
 };
 

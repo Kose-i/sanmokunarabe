@@ -1,3 +1,9 @@
+#ifndef sanmokunarabe_hpp
+#define sanmokunarabe_hpp
+
+#include <iostream>
+#include <string>
+
 class sanmokunarabe{
   private:
     std::string board;
@@ -31,7 +37,7 @@ class sanmokunarabe{
         std::cout << '\n';
       }
     }
-    static char set_stone_is_finish(const char& stone, const int& pos) {
+    char set_stone_is_finish(const char& stone, const int& pos) {
       if (board[pos] != '.') {
         if (stone == 'w') return 'b';
         else if (stone == 'b') return 'w';
@@ -51,3 +57,4 @@ class sanmokunarabe{
       return board;
     }
 };
+#endif

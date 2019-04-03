@@ -8,7 +8,7 @@
 
 class Computer_sanmokunarabe{
   private:
-    std::map<int, Hand> tmp;
+    std::map<int, Hand_sanmokunarabe> hand_box;
   public:
     int select_pos(const int&);
     void study();
