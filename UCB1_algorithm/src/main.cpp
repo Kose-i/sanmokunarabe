@@ -16,7 +16,7 @@ int player_select(const char& stone_color) {
 int main(int argc, char** argv) {
   std::cout << "main-start\n";
   Computer_sanmokunarabe test;
-  for (auto i = 0;i < 5;++i) {//player による実証
+  for (auto i = 0;i < 5;++i) {//player による実証回数（少しずつルールを覚えていく）
 
     for (auto j = 0;j < 10000;++j) {//コンピュータ強化学習
       test.study();
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
       }
       tmp.print_board();
     }
-    std::this_thread::sleep_for(wait_time);
+    std::this_thread::sleep_for(wait_time);//print_result wait
 
   }
   std::cout << "main-finish\n";
