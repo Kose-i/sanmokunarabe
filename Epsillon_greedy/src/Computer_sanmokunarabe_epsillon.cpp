@@ -1,22 +1,23 @@
-#include "Computer_sanmokunarabe.hpp"
-#include "Hand_sanmokunarabe.hpp"
-#include "sanmokunarabe.hpp"
+#include "Computer_sanmokunarabe_epsillon.hpp"
+
+#include "Hand_sanmokunarabe_epsillon.hpp"
+#include "sanmokunarabe_epsillon.hpp"
 
 #include <map>
 #include <string>
 #include <cassert>
 
 
-int Computer_sanmokunarabe::select_pos(const int& hash) {//hashを受け取る
+int Computer_sanmokunarabe_epsillon::select_pos(const int& hash) {//hashを受け取る
   return hand_box[hash].select_pos();
 }
 
-void Computer_sanmokunarabe::study() {
+void Computer_sanmokunarabe_epsillon::study() {
   std::vector<int> w_Hash_recorder;
   std::vector<int> w_Hand_recorder;
   std::vector<int> b_Hash_recorder;
   std::vector<int> b_Hand_recorder;
-  sanmokunarabe test;
+  sanmokunarabe_epsillon test;
   char win_char {};
   for (auto i = 0;i < 9;++i) {
     std::string board_data = test.board_env();
@@ -61,7 +62,7 @@ void Computer_sanmokunarabe::study() {
   }
 }
 
-int Computer_sanmokunarabe::make_hash_from_board(const std::string& board) {//board[9byte] -> output_hash[{18bit}]
+int Computer_sanmokunarabe_epsillon::make_hash_from_board(const std::string& board) {//board[9byte] -> output_hash[{18bit}]
   int output_hash {};
   assert(board.size() == 9);
   for (auto i = 0;i < 9;++i) {

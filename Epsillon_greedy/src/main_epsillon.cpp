@@ -1,5 +1,5 @@
-#include "sanmokunarabe.hpp"
-#include "Computer_sanmokunarabe.hpp"
+#include "sanmokunarabe_epsillon.hpp"
+#include "Computer_sanmokunarabe_epsillon.hpp"
 
 #include <thread>
 #include <chrono>
@@ -15,14 +15,14 @@ int player_select(const char& stone_color) {
 
 int main(int argc, char** argv) {
   std::cout << "main-start\n";
-  Computer_sanmokunarabe test;
+  Computer_sanmokunarabe_epsillon test;
   for (auto i = 0;i < 5;++i) {//player による実証回数（少しずつルールを覚えていく）
 
     for (auto j = 0;j < 10000;++j) {//コンピュータ強化学習
       test.study();
     }
 
-    sanmokunarabe tmp;//強化学習をテストする
+    sanmokunarabe_epsillon tmp;//強化学習をテストする
     for (auto j = 0;j < 9;++j) {//プレイアーVSコンピュータ
       int pos = 0;
       char stone = '.';
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
         stone = 'b';
         std::cout << "enemy turn:";
         std::cout << "pos:" << pos;
-        pos = test.select_pos(Computer_sanmokunarabe::make_hash_from_board(tmp.board_env()));
+        pos = test.select_pos(Computer_sanmokunarabe_epsillon::make_hash_from_board(tmp.board_env()));
       }
       char c = tmp.set_stone_is_finish(stone, pos);
       if (c != '.') {

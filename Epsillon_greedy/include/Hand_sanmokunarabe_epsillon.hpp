@@ -1,15 +1,15 @@
 #ifndef Hand_hpp
 #define Hand_hpp
 
-#include "UCB1.hpp"
+#include "UCB1_epsillon.hpp"
 
 #include <vector>
 
-class Hand_sanmokunarabe{
+class Hand_sanmokunarabe_epsillon{
   private:
-    std::vector<UCB1> hand_nine;
+    std::vector<UCB1_epsillon> hand_nine;
   public:
-    Hand_sanmokunarabe();
+    Hand_sanmokunarabe_epsillon();
     int select_pos()const;
     void set_win(const int&);
     void set_lose(const int&);

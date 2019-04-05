@@ -1,13 +1,13 @@
-#include "Hand_sanmokunarabe.hpp"
+#include "Hand_sanmokunarabe_epsillon.hpp"
 
 #include <limits>
 #include <vector>
 
 #include <iostream>//test
 
-Hand_sanmokunarabe::Hand_sanmokunarabe():hand_nine(9){};
+Hand_sanmokunarabe_epsillon::Hand_sanmokunarabe_epsillon():hand_nine(9){};
 
-int Hand_sanmokunarabe::select_pos()const{
+int Hand_sanmokunarabe_epsillon::select_pos()const{
   int max_pos = 0;
   double max_param = std::numeric_limits<double>::min();
   int sum_trial_count {};
@@ -26,11 +26,11 @@ int Hand_sanmokunarabe::select_pos()const{
   return max_pos;
 };
 
-void Hand_sanmokunarabe::set_win(const int& num) {
+void Hand_sanmokunarabe_epsillon::set_win(const int& num) {
   ++hand_nine[num].win_count;
   ++hand_nine[num].call_count;
 }
 
-void Hand_sanmokunarabe::set_lose(const int& num) {
+void Hand_sanmokunarabe_epsillon::set_lose(const int& num) {
   ++hand_nine[num].call_count;
 }

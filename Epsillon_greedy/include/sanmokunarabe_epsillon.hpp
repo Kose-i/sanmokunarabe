@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-class sanmokunarabe{
+class sanmokunarabe_epsillon{
   private:
     std::string board;
     static bool is_same(const char&, const char&, const char&);
@@ -12,10 +12,10 @@ class sanmokunarabe{
     char is_finish_line()const;
     char is_finish_naname()const;
   public:
-    sanmokunarabe();
+    sanmokunarabe_epsillon();
     void print_board() const;
     char set_stone_is_finish(const char& stone, const int& pos);
-    char is_finish();
-    std::string board_env();
+    char is_finish()const;
+    std::string board_env()const;
 };
 #endif
