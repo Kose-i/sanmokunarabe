@@ -1,13 +1,14 @@
 #ifndef Hand_hpp
 #define Hand_hpp
 
-#include "UCB1_epsillon.hpp"
+#include "Greedy_epsillon.hpp"
 
 #include <vector>
 
 class Hand_sanmokunarabe_epsillon{
   private:
-    std::vector<UCB1_epsillon> hand_nine;
+    std::vector<Greedy_epsillon> hand_nine;
+    constexpr auto thread_epsillon = 0.3;//TODO 逐次的に変更する
   public:
     Hand_sanmokunarabe_epsillon();
     int select_pos()const;
