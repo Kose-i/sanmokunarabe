@@ -32,7 +32,7 @@ include_directories(Epsillon_greedy/include)
 add_executable(Epsillon_greedy
   Epsillon_greedy/src/main_epsillon.cpp
   Epsillon_greedy/src/sanmokunarabe_epsillon.cpp
-  Epsillon_greedy/src/UCB1_epsillon.cpp
+  Epsillon_greedy/src/Greedy_epsillon.cpp
   Epsillon_greedy/src/Hand_sanmokunarabe_epsillon.cpp
   Epsillon_greedy/src/Computer_sanmokunarabe_epsillon.cpp
 )

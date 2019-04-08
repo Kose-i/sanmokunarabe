@@ -8,7 +8,7 @@
 class Hand_sanmokunarabe_epsillon{
   private:
     std::vector<Greedy_epsillon> hand_nine;
-    constexpr auto thread_epsillon = 0.3;//TODO 逐次的に変更する
+    const double thread_epsillon = 0.3;//TODO 逐次的に変更する
   public:
     Hand_sanmokunarabe_epsillon();
     int select_pos()const;

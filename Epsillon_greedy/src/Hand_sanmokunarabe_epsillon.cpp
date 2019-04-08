@@ -5,13 +5,19 @@
 #include <limits>
 #include <vector>
 
-#include <iostream>//test
+#include <random>
 
 Hand_sanmokunarabe_epsillon::Hand_sanmokunarabe_epsillon():hand_nine(9){};
 
 int Hand_sanmokunarabe_epsillon::select_pos()const{
-  if (random.rand() < thread_epsillon) {
-    int random_select {};//0~9 random
+  std::random_device seed_gen;
+  std::mt19937 engine(seed_gen());
+
+  std::uniform_real_distribution<> dist(0.0, 1.0);
+  double random_thread {dist(engine)};
+  if (random_thread < thread_epsillon) {
+    std::uniform_int_distribution<> dist_select(0, 9);
+    int random_select {dist_select(engine)};//0~9 random
     return random_select;
   }
   int max_pos = 0;
@@ -24,7 +30,6 @@ int Hand_sanmokunarabe_epsillon::select_pos()const{
       max_param = tmp_calc;
     }
   }
-  std::cout << "max_pos:" << max_pos << " max_param:" << max_param << '\n';
   return max_pos;
 };
 
