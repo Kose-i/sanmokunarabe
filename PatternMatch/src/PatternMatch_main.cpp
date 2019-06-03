@@ -135,7 +135,7 @@ int main(int argc ,char ** argv) {
     if (i%2 == 0) {
       detect_pos = computer1.define_put_stone_pos(test.board);
     } else {
-      std::cout << "0~9:";
+      std::cout << "0~8:";
       std::cin >> detect_pos;
     }
     std::cout << detect_pos << '\n';
